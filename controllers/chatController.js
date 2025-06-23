@@ -1,6 +1,6 @@
-// const asyncHandler = require('express-async-handler');
-import chatRepository from '../om/chat';
-import userRepository from '../om/user';
+import asyncHandler from 'express-async-handler';
+import { chatRepository } from '../om/chat.js';
+import { userRepository } from '../om/user.js';
 
 // const accessChat = asyncHandler(async (req, res) => {
 //   const {userId} = req.body;
@@ -29,15 +29,16 @@ import userRepository from '../om/user';
 //   }
 // })
 
-export const fetchChats = async(req, res) => {
+export const fetchChats = asyncHandler(async(req, res) => {
+  const userId = req.user.user._id;
   try {
-    const chats = chatRepository.search().where('_id').equals(req.user.result._id).return.all()
+    const chats = await chatRepository.search().where('users').contain(userId).return.all();
     res.json(chats)
   }catch(error) {
     res.status(400);
     throw new Error(error.message);
   }
-}
+})
 
 
 // const fetchChats = asyncHandler(async(req, res) => {

@@ -12,6 +12,7 @@ import morgan from 'morgan';
 // const { logError } = require("./errorHandler");
 import { router as userRouter } from './routers/userRouter.js';
 import { router as searchRouter } from './routers/searchRouter.js';
+import { router as chatRouter } from './routers/chatRouter.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -36,7 +37,8 @@ app.get("/", (req, res) => {
 });
 // app.use("/music", musicRouter);
 // app.use("/messages", messageRouter);
-app.use('/user', userRouter)
+app.use('/chat', chatRouter);
+app.use('/user', userRouter);
 app.use('/users', searchRouter);
 
 app.get('*', (req, res) => {
