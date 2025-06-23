@@ -1,5 +1,6 @@
 import express from 'express';
 import { userRepository } from '../om/user.js'
+import { auth } from '../middleware/auth.js';
 import { createUser, emailVerify, googleAuthController, login, logout, showUser, deleteUser } from '../controllers/userController.js'
 
 export const router = express.Router();
@@ -33,14 +34,14 @@ router.get("/verify/:authId.:secretKey", async (req, res) => {
   emailVerify(req, res)
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   showUser(req, res)
 })
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', auth, async (req, res) => {
   profileUpdate(req, res)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   deleteUser(req, res);
 })
